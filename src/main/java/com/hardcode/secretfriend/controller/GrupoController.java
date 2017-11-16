@@ -21,55 +21,57 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.hardcode.secretfriend.model.Contato;
-import com.hardcode.secretfriend.repository.ContatoRepository;
-import com.hardcode.secretfriend.service.ContatoService;
+import com.hardcode.secretfriend.model.Grupo;
+import com.hardcode.secretfriend.repository.GrupoRepository;
+import com.hardcode.secretfriend.service.GrupoService;
 
 @RestController
-@RequestMapping("/contato")
+@RequestMapping("/grupo")
 @CrossOrigin
-public class ContatoController {
-
-	@Autowired
-	private ContatoRepository repository;
+public class GrupoController {
 	
 	@Autowired
-	private ContatoService service;
+	private GrupoRepository repository;
+	
+	@Autowired
+	private GrupoService service;
 	
 	@GetMapping
-	public List<Contato> findAll(){
+	public List<Grupo> findAll(){
 		return repository.findAll();
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Contato> findById(@PathVariable Long id) {
-		Contato contato = repository.findById(id);
-		if(contato == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<Grupo> findById(@PathVariable Long id) {
+		Grupo grupo = repository.findById(id);
+		
+		if(grupo == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} else {
-			return new ResponseEntity<Contato>(contato, HttpStatus.OK);
+			return ResponseEntity.status(HttpStatus.OK).body(grupo);
 		}
+		
 	}
 	
 	@PostMapping
-	public ResponseEntity<Contato> addContato(@Valid @RequestBody Contato contato, HttpServletResponse respose){
-		Contato contatoSalvo = repository.save(contato);
+	public ResponseEntity<Grupo> addGrupo(@Valid @RequestBody Grupo grupo,HttpServletResponse response){
+		Grupo grupoSalvo = repository.save(grupo);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(contato.getId()).toUri();
-		respose.setHeader("Location", uri.toASCIIString());
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(grupoSalvo.getId()).toUri();
+		response.addHeader("Location", uri.toASCIIString());
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(contatoSalvo);
+		return ResponseEntity.status(HttpStatus.CREATED).body(grupoSalvo);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Contato> updateContato(@Valid @RequestBody Contato contato, @PathVariable Long id){
-		return new ResponseEntity<Contato>(service.updateContato(id, contato),HttpStatus.OK);
+	public ResponseEntity<Grupo> updateGrupo(@PathVariable Long id,@Valid @RequestBody Grupo grupo){
+		
+		return ResponseEntity.status(HttpStatus.OK).body(service.updateGrupo(id,grupo));
 	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(value=HttpStatus.NO_CONTENT)
-	public void deleteContato(@PathVariable Long id){
+	public void deleteGrupo(@PathVariable Long id) {
 		repository.delete(id);
 	}
-	
 }
