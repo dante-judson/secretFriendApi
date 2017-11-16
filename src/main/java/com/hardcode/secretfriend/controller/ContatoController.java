@@ -27,7 +27,6 @@ import com.hardcode.secretfriend.service.ContatoService;
 
 @RestController
 @RequestMapping("/contato")
-@CrossOrigin
 public class ContatoController {
 
 	@Autowired

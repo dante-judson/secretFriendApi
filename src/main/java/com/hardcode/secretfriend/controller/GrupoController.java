@@ -27,7 +27,6 @@ import com.hardcode.secretfriend.service.GrupoService;
 
 @RestController
 @RequestMapping("/grupo")
-@CrossOrigin
 public class GrupoController {
 	
 	@Autowired
