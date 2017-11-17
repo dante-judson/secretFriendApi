@@ -26,8 +26,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		clients.inMemory()
 		.withClient("hardcode").secret("h@rdc0d3")
 		.scopes("read","write")
-		.authorizedGrantTypes("password","refresh_token")
-		.refreshTokenValiditySeconds(3600*24)
+		.authorizedGrantTypes("password")
 		.accessTokenValiditySeconds(60);
 		
 	}
@@ -36,7 +35,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.tokenStore(tokenStore())
 		.accessTokenConverter(accessTokenConverter())
-		.reuseRefreshTokens(false)
 		.authenticationManager(manager);
 	}
 	

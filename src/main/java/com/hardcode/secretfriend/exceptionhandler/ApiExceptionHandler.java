@@ -27,4 +27,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		return handleExceptionInternal(ex,"Erro ao validar objeto, verificar validação dos campos", headers, HttpStatus.BAD_REQUEST, request);
 	}
 
+	
+
 }

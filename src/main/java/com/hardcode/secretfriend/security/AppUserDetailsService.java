@@ -3,6 +3,7 @@ package com.hardcode.secretfriend.security;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import com.hardcode.secretfriend.repository.UsuarioRepository;
 @Service
 public class AppUserDetailsService implements UserDetailsService{
 
+	@Autowired
 	private UsuarioRepository repository;
 	
 	@Override
@@ -25,7 +27,7 @@ public class AppUserDetailsService implements UserDetailsService{
 			throw new UsernameNotFoundException("usuário não encontrado");
 		} else {
 			Set<SimpleGrantedAuthority> auth = new HashSet<>();
-			auth.add(new SimpleGrantedAuthority("total"));
+			auth.add(new SimpleGrantedAuthority("ADM"));
 			return new User(usuario.getUsername(),usuario.getSenha(),auth );
 		}
 	}
