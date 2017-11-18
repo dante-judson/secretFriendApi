@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.hardcode.secretfriend.exception.UserNotAuthorizedException;
+
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 
@@ -27,6 +29,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		return handleExceptionInternal(ex,"Erro ao validar objeto, verificar validação dos campos", headers, HttpStatus.BAD_REQUEST, request);
 	}
 
-	
-
+	@ExceptionHandler(UserNotAuthorizedException.class)
+	@ResponseStatus(value=HttpStatus.UNAUTHORIZED)
+	public void handleUserNotAuthorizedExceptio() {
+	}
 }

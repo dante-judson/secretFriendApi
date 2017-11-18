@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hardcode.secretfriend.model.Usuario;
 import com.hardcode.secretfriend.repository.UsuarioRepository;
+import com.hardcode.secretfriend.util.PasswordUtil;
 
 @RestController
 @RequestMapping("/user")
@@ -26,6 +27,9 @@ public class UsuarioController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<Usuario> addUser(@Valid @RequestBody Usuario usuario,HttpServletResponse response){
+		
+		usuario.setSenha(PasswordUtil.encodePassword(usuario.getSenha()));
+		
 		Usuario usuarioSalvo = repository.save(usuario);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(usuarioSalvo.getId()).toUri();

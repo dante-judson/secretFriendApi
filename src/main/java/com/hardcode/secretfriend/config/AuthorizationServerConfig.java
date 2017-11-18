@@ -27,7 +27,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		.withClient("hardcode").secret("h@rdc0d3")
 		.scopes("read","write")
 		.authorizedGrantTypes("password")
-		.accessTokenValiditySeconds(60);
+		.accessTokenValiditySeconds(60*30);
 		
 	}
 	
