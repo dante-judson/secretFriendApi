@@ -33,7 +33,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/user/register").permitAll()
+		.antMatchers("/user/register","/user/email-available","/user/username-available").permitAll()
 		.anyRequest().authenticated()
 		.and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

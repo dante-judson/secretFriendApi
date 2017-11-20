@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hardcode.secretfriend.model.Usuario;
 import com.hardcode.secretfriend.repository.UsuarioRepository;
+import com.hardcode.secretfriend.service.UsuarioService;
 import com.hardcode.secretfriend.util.PasswordUtil;
 
 @RestController
@@ -25,6 +26,9 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioRepository repository;
 	
+	@Autowired
+	private UsuarioService service;
+	
 	@PostMapping("/register")
 	public ResponseEntity<Usuario> addUser(@Valid @RequestBody Usuario usuario,HttpServletResponse response){
 		
@@ -32,10 +36,21 @@ public class UsuarioController {
 		
 		Usuario usuarioSalvo = repository.save(usuario);
 		
+		service.addContatoDefault(usuarioSalvo);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(usuarioSalvo.getId()).toUri();
 		response.setHeader("Location", uri.toASCIIString());
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvo);
+	}
+	
+	@PostMapping("/email-available")
+	public boolean emailAvailable(@RequestBody String email) {
+		return repository.findByEmail(email) == null;
+	}
+	
+	@PostMapping("/username-available")
+	public boolean usernameAvailable(@RequestBody String username) {
+		return repository.findByUsername(username) == null ;
 	}
 	
 }

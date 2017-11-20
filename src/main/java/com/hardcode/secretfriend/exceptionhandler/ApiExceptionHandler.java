@@ -1,5 +1,6 @@
 package com.hardcode.secretfriend.exceptionhandler;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,5 +33,28 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 	@ExceptionHandler(UserNotAuthorizedException.class)
 	@ResponseStatus(value=HttpStatus.UNAUTHORIZED)
 	public void handleUserNotAuthorizedExceptio() {
+	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<Erro> handleDataIntegrityViolationException() {
+		return new ResponseEntity<ApiExceptionHandler.Erro>(new Erro("violação de chave 'unique'"),HttpStatus.BAD_REQUEST);
+	}
+	
+	static class Erro{
+		private String msg;
+
+		public Erro(String msg) {
+			this.msg = msg;
+		}
+
+		public String getMsg() {
+			return msg;
+		}
+
+		public void setMsg(String msg) {
+			this.msg = msg;
+		}
+		
+		
 	}
 }

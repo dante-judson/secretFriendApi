@@ -20,9 +20,12 @@ public class Usuario {
 	@Column(unique=true)
 	private String email;
 	
+	private String nomeCompleto;
+	
 	@NotNull
 	private String senha;
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -53,6 +56,14 @@ public class Usuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getNomeCompleto() {
+		return nomeCompleto;
+	}
+
+	public void setNomeCompleto(String nomeCompleto) {
+		this.nomeCompleto = nomeCompleto;
 	}
 
 }
