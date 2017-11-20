@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.hardcode.secretfriend.dto.AvailableDTO;
 import com.hardcode.secretfriend.model.Usuario;
 import com.hardcode.secretfriend.repository.UsuarioRepository;
 import com.hardcode.secretfriend.service.UsuarioService;
@@ -44,13 +45,13 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/email-available")
-	public boolean emailAvailable(@RequestBody String email) {
-		return repository.findByEmail(email) == null;
+	public AvailableDTO emailAvailable(@RequestBody String email) {
+		return service.emailAvailable(email);
 	}
 	
 	@PostMapping("/username-available")
-	public boolean usernameAvailable(@RequestBody String username) {
-		return repository.findByUsername(username) == null ;
+	public AvailableDTO usernameAvailable(@RequestBody String username) {
+		return service.usernameAvailable(username);
 	}
 	
 }
